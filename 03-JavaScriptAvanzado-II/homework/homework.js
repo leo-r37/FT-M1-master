@@ -58,13 +58,10 @@ function cacheFunction(cb) {
 
   var obj = {}
   return function(arg) {
-    if (obj.hasOwnProperty(arg)) {
-      return obj[arg]
+    if (!obj.hasOwnProperty(arg)) {
+      obj[arg] = cb(arg);
     }
-    else 
-      var resultado = cb(arg);
-      obj[arg] = resultado;
-      return obj[arg];
+    return obj[arg];
   }
 }
 
@@ -105,9 +102,9 @@ function crearCadena(delimitadorIzquierda, delimitadorDerecha, cadena) {
   return delimitadorIzquierda + cadena + delimitadorDerecha;
 }
 
-let textoAsteriscos = crearCadena.bind(this, "*", "*");
-let textoGuiones = crearCadena.bind(this, "-", "-");
-let textoUnderscore = crearCadena.bind(this, "_", "_");
+let textoAsteriscos = crearCadena.bind(null, "*", "*");
+let textoGuiones = crearCadena.bind(null, "-", "-");
+let textoUnderscore = crearCadena.bind(null, "_", "_");
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
