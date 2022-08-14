@@ -44,60 +44,67 @@ console.log('hola'.repeatify(3));   //holaholahola
 
 SOLUCION:
 ```javascript
-function Shape() {
-	this.Type = ''	
-	this.getType = function() {
-		return this.Type;
+class Shape {
+	constructor(type) {
+		this.type = type;
 	}
-
-}
-
-// --------- TRIANGLE -------------
-
-function Triangle(a, b, c) {
-	this.prototype = new Shape();
-	Shape.call(this);
-	this.a = a;
-	this.b = b;
-	this.c = c;
- 	this.Type = "Triangle"
-
-	this.getPerimeter = function() {
-		return a + b + c;
-	}
-	this.getArea = function() {
-		let sp = (a + b + c) / 2
-		return Math.sqrt(sp(sp-a)(sp-b)(sp-c))
+	getType() {
+		return this.type;
 	}
 }
 
-// --------- CIRCLE -------------
+//------- TRIANGLE
 
-const pi = 3.1415926535897
+class Triangle extends Shape{
+  constructor(a, b, c) {
+    super();
+    this.type = "Triangle";
+    this.a = a;
+    this.b = b;
+    this.c = c;
+  }
+  getPerimeter() {
+    return this.a + this.b + this.c;
+  }
+  
+  getArea() {
+    let s = (this.a + this.b + this.c) / 2;
+		return Math.sqrt(s*(s-this.a)*(s-this.b)*(s-this.c));
+  }
+}
 
-function Circle(radio) {
-	this.prototype = new Shape();
-	Shape.call(this);
-	this.radio = radio;
-	this.Type = "Circle";
+//------- CIRCLE
+class Circle extends Shape {
+  constructor(radio) {
+    super();
+    this.type = "Circle";
+    this.radio = radio;
+    this.pi = 3.1415926535897;
+  }
+  getPerimeter() {
+    return 2 * this.pi * this.radio;
+  }
+  getArea() {
+    return this.pi * (this.radio ** 2);
+  }
+}
 
-	this.getPerimeter = function() {
-		return 2 * pi * radio;
-	}
+//------- SQUARE
+class Square extends Shape {
+  constructor(side) {
+    super();
+    this.type = "Square"
+    this.side = side;
+  }
+  getPerimeter() {
+    return this.side * 4;
+  }
+  getArea() {
+    return this.side * this.side;
+  }
 }
 
 
-// --------- SQUARE -------------
-
-function Square(side) {
-	this.prototype = new Shape();
-	Shape.call(this);
-	this.side = side;
-
-	this.getPerimeter = function() {
-		return 4 * side;
-	}
-}
 ```
 Probá tu solución con el siguiente código:
 
