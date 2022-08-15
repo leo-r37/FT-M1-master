@@ -59,7 +59,32 @@ Pueden utilizar class o función constructora.
 */
 
 function Queue() {
-			class Queue {
+
+    this.long = 0;
+    this.queue = [];
+  
+	this.enqueue = function(value) {
+	    this.long++;
+	    this.queue.push(value);    
+  	}
+  
+  	this.dequeue = function() {
+     	if (this.long <= 0) {
+        	return undefined;
+      }
+		this.long--;
+		return this.queue.shift()    
+  	}
+  
+  	this.size = function() {
+    	return this.long;    
+  }
+}
+
+
+// --------------- Version con CLASE ------
+
+/*class Queue {
 	  constructor() {
 	    this.long = 0;
 	    this.queue = [];
@@ -79,8 +104,8 @@ function Queue() {
 	  size() {
 	    return this.long;
 	  }
-	}
-}
+}*/
+
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
