@@ -67,17 +67,17 @@ function Queue() {
 	  
 	  enqueue(value) {
 	    this.long++;
-	    this.queue.push(value);    
+	    this.queue.push(value);
 	  }
 	  dequeue() {
 	    if (this.long <= 0) {
 	      return undefined;
 	    }
 	    this.long--;
-	    return this.queue.shift()    
+	    return this.queue.shift();
 	  }
 	  size() {
-	    return this.long;    
+	    return this.long;
 	  }
 	}
 }
