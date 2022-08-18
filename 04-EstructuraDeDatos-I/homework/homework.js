@@ -63,21 +63,21 @@ function Queue() {
     this.long = 0;
     this.queue = [];
   
-	this.enqueue = function(value) {
-	    this.long++;
-	    this.queue.push(value);    
-  	}
+    Queue.prototype.enqueue = function(value) {
+      this.long++;
+      this.queue.push(value);    
+    }
   
-  	this.dequeue = function() {
-     	if (this.long <= 0) {
-        	return undefined;
+    Queue.prototype.dequeue = function() {
+      if (this.long <= 0) {
+          return undefined;
       }
-		this.long--;
-		return this.queue.shift()    
-  	}
+    this.long--;
+    return this.queue.shift()    
+    }
   
-  	this.size = function() {
-    	return this.long;    
+    Queue.prototype.size = function() {
+      return this.long;    
   }
 }
 

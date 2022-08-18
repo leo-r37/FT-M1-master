@@ -2,7 +2,7 @@
 
 /*
 Implementar la clase LinkedList, definiendo los siguientes métodos:
-  - add: agrega un nuevo nodo al final de la lista;
+  - add: agrega un nuevo nodo al final de la LinkedLista;
   - remove: elimina el último nodo de la lista y retorna su valor (tener en cuenta el caso particular de una lista de un solo nodo y de una lista vacía);
   - search: recibe un parámetro y lo busca dentro de la lista, con una particularidad: el parámetro puede ser un valor o un callback. En el primer caso, buscamos un nodo cuyo valor coincida con lo buscado; en el segundo, buscamos un nodo cuyo valor, al ser pasado como parámetro del callback, retorne true. 
   Ejemplo: 
@@ -11,9 +11,85 @@ Implementar la clase LinkedList, definiendo los siguientes métodos:
   En caso de que la búsqueda no arroje resultados, search debe retornar null.
 */
 
-function LinkedList() {}
+function LinkedList() {
+  this._length = 0;
+  this.head = null;
 
-function Node(value) {}
+  LinkedList.prototype.add = function(value) {
+    let node = new Node(value);
+    let current = this.head;
+    if (!current) {
+      this.head = node;
+      this._length++;
+      return node;
+    }
+    while (current.next) {
+      current = current.next;
+    }
+    current.next = node;
+    this._length++;
+    return node;
+  }
+  
+  LinkedList.prototype.remove = function() {
+    let current = this.head;
+    if (!current) {
+      return null;
+    }
+    if (!current.next) {
+      let removed = current.value;
+      this.head = null;
+      this._length--;
+      return removed;
+    }
+    while (current.next.next) {
+      current = current.next;
+    }
+    let removed = current.next.value;
+    current.next = null;
+    this._length--;
+    return removed;
+  }
+    LinkedList.prototype.search = function(parameter) {
+    /* function(nodeValue) {
+       return nodeValue === 'two';
+       } */
+    let current = this.head;
+    if (!current) {
+      return null;
+    }
+    if (typeof parameter === 'function') {
+      while (current) {
+        if (parameter(current.value) === true) {
+          return current.value;
+        }
+        else {
+          if (!current.next) {
+            return null;
+          }
+          current = current.next
+        }
+      }      
+    }
+    while (current) {
+      if (current.value === parameter) {
+        return current.value;
+      }
+      else {
+        if (!current.next) {
+          return null;
+        }
+        current = current.next
+      }
+    }
+  }
+}
+
+function Node(value) {
+  this.value = value;
+  this.next = null;
+}
+
 
 /*
 Implementar la clase HashTable.
@@ -29,8 +105,53 @@ La clase debe tener los siguientes métodos:
 
 Ejemplo: supongamos que quiero guardar {instructora: 'Ani'} en la tabla. Primero puedo chequear, con hasKey, si ya hay algo en la tabla con el nombre 'instructora'; luego, invocando set('instructora', 'Ani'), se almacenará el par clave-valor en un bucket específico (determinado al hashear la clave)
 */
+/*
+*/
 
-function HashTable() {}
+function HashTable() {
+  this.buckets = [];
+  this.numBuckets = 35;
+  
+  HashTable.prototype.hash = function(input) {
+    let count = 0;
+    for (let i = 0; i < input.length; i++) {
+      count += input[i].charCodeAt();
+    }
+    let position = count % this.numBuckets;
+    return position;
+  }
+  
+  HashTable.prototype.set = function(key, value) {
+    if (typeof key != "string") {
+      throw new TypeError("Keys must be strings")
+    }
+    let newKey = this.hash(key);
+    if (!this.buckets[newKey]) {
+      this.buckets[newKey] = {[key]: value};
+      return "\"" + key + "\"" + ": position: " + newKey;
+    }
+    else {
+      this.buckets[newKey][key] = value;
+      return "\"" + key + "\"" + ": position: " + newKey;
+    }
+  }
+  
+  HashTable.prototype.get = function(key) {
+    let newKey = this.hash(key);
+    return this.buckets[newKey][key];
+  }
+  
+  HashTable.prototype.hasKey = function(key) {
+    let newKey = this.hash(key);
+    if (this.buckets[newKey]) {
+      if (this.buckets[newKey].hasOwnProperty(key)) {
+        return true;
+      }
+      else return false;
+    }
+    return false;
+  }
+}
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
