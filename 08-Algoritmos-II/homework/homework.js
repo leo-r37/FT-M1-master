@@ -10,6 +10,8 @@ function quickSort(array) {
   let index = Math.floor(Math.random()*array.length);
   let pivot = array[index];
 
+  if (array.length <= 1) return array;
+
   let left = [];      
   let equals = [];    
   let right = [];     
@@ -20,15 +22,20 @@ function quickSort(array) {
     if (array[i] > pivot) right.push(array[i]);
   }
 
-  if (left.length > 1 && right.length > 1) return quickSort(left).concat(equals).concat(quickSort(right));
-  if (left.length > 1 && right.length <= 1) return quickSort(left).concat(equals).concat(right);
-  if (right.length > 1) return left.concat(equals).concat(quickSort(right));
 
-  return left.concat(equals).concat(right);
+  //primera solucion (sin optimizar)
+  // if (left.length > 1 && right.length > 1) return quickSort(left).concat(equals).concat(quickSort(right));
+  // if (left.length > 1 && right.length <= 1) return quickSort(left).concat(equals).concat(right);
+  // if (right.length > 1) return left.concat(equals).concat(quickSort(right));
+
+  // return left.concat(equals).concat(right);
+
+  //solucion optimizada (code review)
+  return quickSort(left).concat(equals).concat(quickSort(right))
 
 }
 
-
+/* // ---------------------------------------CORREGIDO EN CODE REVIEW----------------------------
 function mergeSort(array) {
   // Implementar el método conocido como mergeSort para ordenar de menor a mayor
   // el array recibido como parámetro
@@ -90,6 +97,50 @@ function mergeSort(array) {
     }
   }
 }
+*/
+
+
+/* code review */  // ------------------------------------
+
+function mergeSort(array) {
+  
+  if (array.length === 1) return array;
+
+  let division = split(array)
+
+  let left = division[0];
+  let right = division[1];
+
+  return paste(mergeSort(left), mergeSort(right));
+}
+
+//funcion qe divide el arreglo
+function split(array) {
+  let middle = Math.floor(array.length/2);
+  let left = array.slice(0, middle);
+  let right = array.slice (middle);
+
+  return [left, right]
+}
+
+//funcion que mergea el arreglo
+function paste(left, right) {
+  let array = [];
+  let leftIndex = 0;
+  let rightIndex = 0;
+
+  while (leftIndex < left.length && rightIndex < right.length) {
+    if(left[leftIndex] < right[rightIndex]) {
+      array.push(left[leftIndex]);
+      leftIndex++;
+    } else {
+      array.push(right[rightIndex]);
+      rightIndex++;
+    }
+  }
+  return array.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+}
+
 
 // No modificar nada debajo de esta línea
 // --------------------------------
@@ -98,3 +149,4 @@ module.exports = {
   quickSort,
   mergeSort,
 };
+
